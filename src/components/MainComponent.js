@@ -12,7 +12,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
 const mapStateToProps = state =>{
     return {
-        ampsites: state.campsites,
+        campsites: state.campsites,
         comments: state.comments,
         partners: state.partners,
         promotions: state.promotions
@@ -20,15 +20,6 @@ const mapStateToProps = state =>{
 };
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            campsites: CAMPSITES,
-            comments: COMMENTS,
-            partners: PARTNERS,
-            promotions: PROMOTIONS
-        };
-    }
 
     render() {
         const HomePage = () => {
