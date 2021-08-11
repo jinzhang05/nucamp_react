@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import {
     Card, CardText, CardBody, CardImg, CardTitle, Label,
-    Button, Modal, ModalHeader, ModalBody
+    Button, Modal, ModalHeader, ModalBody, Breadcrumb, BreadcrumbItem
 } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
-
+import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl';
 
 function RenderCampsite({ campsite }) {
     return (
         <div className="col-md-5 m-1">
             <Card>
-                <CardImg src={campsite.image} alt={campsite.name} />
+                <CardImg src={baseUrl + campsite.image} alt={campsite.name} />
                 <CardBody>
                     <CardTitle>{campsite.name}</CardTitle>
                     <CardText>{campsite.description}</CardText>
@@ -63,7 +64,7 @@ function CampsiteInfo(props) {
                     <div className='col'>
                         <h4>{props.errMess}</h4>
                     </div>
-                    
+
                 </div>
             </div>
         );
@@ -73,11 +74,21 @@ function CampsiteInfo(props) {
         return (
             <div className='container'>
                 <div className='row'>
+                    <div className="col">
+                        <Breadcrumb>
+                            <BreadcrumbItem><Link to="/directory">Directory</Link></BreadcrumbItem>
+                            <BreadcrumbItem active>{props.campsite.name}</BreadcrumbItem>
+                        </Breadcrumb>
+                        <h2>{props.campsite.name}</h2>
+                        <hr />
+                    </div>
+                </div>
+                <div className="row">
                     <RenderCampsite campsite={props.campsite} />
-                    <RenderComments 
+                    <RenderComments
                         comments={props.comments}
                         addComment={props.addComment}
-                        campsiteId={props.campsite.id} 
+                        campsiteId={props.campsite.id}
                     />
                 </div>
             </div>
@@ -106,16 +117,16 @@ class CommentForm extends Component {
     handleSubmit(values) {
         this.toggleModal();
         this.props.addComment(
-                this.props.campsiteId,
-                values.rating,
-                values.rating,
-                values.text);
-    
+            this.props.campsiteId,
+            values.rating,
+            values.rating,
+            values.text);
+
     }
-    
+
     render() {
         return (
-            <div className='container'>
+            <>
                 <Button outline
                     color="secondary"
                     onClick={this.toggleModal}>
@@ -168,7 +179,7 @@ class CommentForm extends Component {
                         </LocalForm>
                     </ModalBody>
                 </Modal>
-            </div>
+            </>
         )
     }
 }
